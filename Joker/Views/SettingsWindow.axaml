@@ -1,0 +1,43 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewModels="clr-namespace:Joker.ViewModels"
+        mc:Ignorable="d" d:DesignWidth="800" 
+        Width="300"
+        MinWidth="300"
+        MinHeight="300"
+        SizeToContent="Height"
+        WindowStartupLocation="CenterOwner"
+        x:Class="Joker.Views.SettingsWindow"
+        x:DataType="viewModels:SettingsWindowViewModel"
+        Title="Joker Settings">
+
+    <Design.DataContext>
+        <!-- This only sets the DataContext for the previewer in an IDE,
+             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+        <viewModels:SettingsWindowViewModel />
+    </Design.DataContext>
+
+    <DockPanel Margin="10">
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button x:Name="CancelButton" Click="CancelButton_OnClick">Cancel</Button>
+            <Button x:Name="ApplyButton" IsDefault="true" Classes="accent" Click="ApplyButton_OnClick" Margin="5,0,0,0">Apply</Button>
+        </StackPanel>
+
+        <StackPanel>
+            <CheckBox IsChecked="{Binding OnlySafeJokes, Mode=TwoWay}" Margin="0,0, 0,15">Only show safe jokes</CheckBox>
+
+            <Label>Show jokes of the following categories:</Label>
+            <ItemsRepeater ItemsSource="{Binding Categories}" Margin="10,0,0,0">
+                <ItemsRepeater.ItemTemplate>
+                    <DataTemplate>
+                        <CheckBox IsChecked="{Binding IsEnabled, Mode=TwoWay}">
+                            <TextBlock Text="{Binding Name}"></TextBlock>
+                        </CheckBox>
+                    </DataTemplate>
+                </ItemsRepeater.ItemTemplate>
+            </ItemsRepeater>
+        </StackPanel>
+    </DockPanel>
+</Window>
