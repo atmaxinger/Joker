@@ -61,11 +61,16 @@
                     Command="{Binding PreviousJokeCommand}">
                 Previous Joke
             </Button>
-            <TextBlock Grid.Column="1"
-                       Margin="10"
-                       VerticalAlignment="Center"
-                       TextAlignment="Center"
-                       Text="{Binding JokeCounter}" />
+            
+            <HyperlinkButton Grid.Column="1"
+                             Margin="10"
+                             VerticalAlignment="Center"
+                             HorizontalAlignment="Center"
+                             Command="{Binding OpenJokeHistoryCommand}"
+                             >
+                <TextBlock Text="{Binding JokeCounter}"></TextBlock>
+            </HyperlinkButton>
+            
             <Button Grid.Column="2"
                     Margin="10"
                     IsDefault="True"

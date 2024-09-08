@@ -4,9 +4,9 @@ namespace Joker.Tests.Services.Jokes;
 
 public class JokeHistoryTests
 {
-    private static readonly Joke Joke1 = new("Joke1", "");
-    private static readonly Joke Joke2 = new("Joke2", "");
-    private static readonly Joke Joke3 = new("Joke3", "");
+    private static readonly Joke Joke1 = new("Joke1", "", DateTime.Now);
+    private static readonly Joke Joke2 = new("Joke2", "", DateTime.Now);
+    private static readonly Joke Joke3 = new("Joke3", "", DateTime.Now);
 
     [Fact]
     public void AddJoke_EmptyHistory_ShouldNotHavePreviousOrNext()

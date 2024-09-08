@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 
 namespace Joker.Services.Jokes;
 
@@ -65,5 +66,23 @@ public class JokeHistory
         CurrentJoke = null;
         _previousJokes.Clear();
         _nextJokes.Clear();
+    }
+
+    public IEnumerable<Joke> GetJokes()
+    {
+        foreach (var joke in _previousJokes)
+        {
+            yield return joke;
+        }
+
+        if (CurrentJoke != null)
+        {
+            yield return CurrentJoke;
+        }
+
+        foreach (var joke in _nextJokes)
+        {
+            yield return joke;
+        }
     }
 }

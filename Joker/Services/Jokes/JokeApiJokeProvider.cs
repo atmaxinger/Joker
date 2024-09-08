@@ -57,6 +57,6 @@ public class JokeApiJokeProvider : IJokeProvider
         
         if (content.Error) return Result<Joke, string>.Failure(content.Message ?? "Unknown Error");
 
-        return Result<Joke, string>.Success(new Joke(content.Joke ?? "", content.Category ?? ""));
+        return Result<Joke, string>.Success(new Joke(content.Joke ?? "", content.Category ?? "", DateTime.Now));
     }
 }

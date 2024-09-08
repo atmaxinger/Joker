@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Joker.Services.Jokes;
 using Joker.Services.Settings;
+using Joker.Views;
 
 namespace Joker.ViewModels;
 
@@ -26,12 +27,14 @@ public partial class MainWindowViewModel : ViewModelBase
         NextJokeCommand = new AsyncRelayCommand(LoadJoke);
         OpenSettingsCommand = new AsyncRelayCommand(_settingsService.ShowJokeOptionsDialogAsync);
         PreviousJokeCommand = new RelayCommand(PreviousJoke);
+        OpenJokeHistoryCommand = new RelayCommand(OpenJokeHistory);
         _ = LoadJoke();
     }
-
+    
     public ICommand NextJokeCommand { get; }
     public ICommand OpenSettingsCommand { get; }
     public ICommand PreviousJokeCommand { get; }
+    public ICommand OpenJokeHistoryCommand { get; }
 
     private void SetCurrentJoke(Joke joke)
     {
@@ -78,5 +81,15 @@ public partial class MainWindowViewModel : ViewModelBase
         {
             SetCurrentJoke(joke);
         }
+    }
+    
+    private void OpenJokeHistory()
+    {
+        var vm = new JokeHistoryViewModel(_jokeHistory);
+        var window = new JokeHistoryWindow
+        {
+            DataContext = vm
+        };
+        window.Show();
     }
 }
