@@ -1,4 +1,5 @@
 using Joker.Services.Jokes;
+using Joker.Services.Jokes.JokeApi;
 using Joker.Services.Settings;
 using Joker.ViewModels;
 using Microsoft.Extensions.DependencyInjection;

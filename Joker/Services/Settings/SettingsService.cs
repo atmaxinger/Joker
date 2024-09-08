@@ -17,11 +17,6 @@ public class SettingsService : ISettingsService
         OnlySafeJokes = true,
     };
 
-    private static readonly JsonSerializerOptions JsonOptions = new()
-    {
-        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-    };
-
     private string GetSettingsFolderPath()
     {
         var path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
@@ -32,7 +27,6 @@ public class SettingsService : ISettingsService
     private string GetSettingsFilePath()
     {
         return Path.Combine(GetSettingsFolderPath(), "settings.json");
-        ;
     }
 
     public async Task InitializeAsync()
@@ -41,7 +35,7 @@ public class SettingsService : ISettingsService
         if (File.Exists(settingsPath))
         {
             await using var settingsFile = File.Open(settingsPath, FileMode.Open, FileAccess.Read);
-            JokeOptions = await JsonSerializer.DeserializeAsync<JokeOptions>(settingsFile, JsonOptions) ??
+            JokeOptions = await JsonSerializer.DeserializeAsync(settingsFile, JokeOptionsSourceGenerationContext.Default.JokeOptions) ??
                           new JokeOptions();
         }
     }
@@ -55,7 +49,7 @@ public class SettingsService : ISettingsService
         }
 
         await using var settingsFile = File.Open(GetSettingsFilePath(), FileMode.Create, FileAccess.Write);
-        await JsonSerializer.SerializeAsync(settingsFile, JokeOptions, JsonOptions);
+        await JsonSerializer.SerializeAsync(settingsFile, JokeOptions, JokeOptionsSourceGenerationContext.Default.JokeOptions);
     }
 
     public async Task<JokeOptions> ShowJokeOptionsDialogAsync()

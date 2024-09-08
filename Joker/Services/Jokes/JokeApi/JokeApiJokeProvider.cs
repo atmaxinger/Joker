@@ -5,9 +5,9 @@ using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Joker.Helpers;
 
-namespace Joker.Services.Jokes;
+namespace Joker.Services.Jokes.JokeApi;
 
-file class JokeApiResult
+internal class JokeApiResult
 {
     [JsonPropertyName("error")] public bool Error { get; set; }
     
@@ -16,6 +16,12 @@ file class JokeApiResult
     [JsonPropertyName("joke")] public string? Joke { get; set; }
 
     [JsonPropertyName("category")] public string? Category { get; set; }
+}
+
+[JsonSourceGenerationOptions]
+[JsonSerializable(typeof(JokeApiResult))]
+internal partial class JokeApiResultSourceGenerationContext : JsonSerializerContext
+{
 }
 
 public class JokeApiJokeProvider : IJokeProvider
@@ -52,7 +58,7 @@ public class JokeApiJokeProvider : IJokeProvider
         var apiResult = await client.GetAsync(url);
         if (!apiResult.IsSuccessStatusCode) return Result<Joke, string>.Failure("Unable to fetch Joke");
 
-        var content = await apiResult.Content.ReadFromJsonAsync<JokeApiResult>();
+        var content = await apiResult.Content.ReadFromJsonAsync(JokeApiResultSourceGenerationContext.Default.JokeApiResult);
         if (content is null) return Result<Joke, string>.Failure("Unable to decode Joke");
         
         if (content.Error) return Result<Joke, string>.Failure(content.Message ?? "Unknown Error");
