@@ -27,9 +27,14 @@ jobs:
       run: dotnet test --no-build --verbosity normal
     - name: Publish
       run: dotnet publish -r linux-x64 -p:PublishTrimmed=true -c Release --artifacts-path /tmp/build-output
+
+
+    - name: 'Tar files'
+      run: tar -cvf /tmp/build-output/release_linux-x64.tar /tmp/build-output/publish/Joker/release_linux-x64
+      
     - uses: actions/upload-artifact@v4
       with:
         name: linux-x64
-        path: /tmp/build-output/
+        path: /tmp/build-output/release_linux-x64.tar
 
 
