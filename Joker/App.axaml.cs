@@ -1,3 +1,4 @@
+using System.Linq;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core.Plugins;
@@ -31,7 +32,8 @@ public class App : Application
         {
             // Line below is needed to remove Avalonia data validation.
             // Without this line you will get duplicate validations from both Avalonia and CT
-            BindingPlugins.DataValidators.RemoveAt(0);
+            // BindingPlugins.DataValidators.RemoveAt(0);
+            
             desktop.MainWindow = new MainWindow
             {
                 DataContext = vm
